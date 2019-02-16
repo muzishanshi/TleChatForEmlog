@@ -38,7 +38,7 @@ function plugin_setting_view(){
 			</p>
 		</form>
 		<?php
-		$json=file_get_contents('https://tongleer.com/api/interface/TleChat.php?action=updateEmlog&version=1&domain='.$_SERVER['SERVER_NAME'].'&token='.$config["token"]);
+		$json=file_get_contents('https://www.tongleer.com/api/interface/TleChat.php?action=updateEmlog&version=1&domain='.$_SERVER['SERVER_NAME'].'&token='.$config["token"]);
 		$result=json_decode($json,true);
 		?>
 		版本检查：<?=$result["content"];?>
