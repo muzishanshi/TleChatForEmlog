@@ -10,6 +10,6 @@ Author URL: http://www.tongleer.com
 */
 if(!defined('EMLOG_ROOT')){die('err');}
 function tle_chat_menu(){
-	echo '<div class="sidebarsubmenu"><a href="./plugin.php?plugin=tle_chat">聊天室</a></div>';
+	echo '<div class="sidebarsubmenu"><a href="./plugin.php?plugin=TleChat">聊天室</a></div>';
 }
 addAction('adm_sidebar_ext', 'tle_chat_menu');
