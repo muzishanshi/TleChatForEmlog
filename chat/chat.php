@@ -8,7 +8,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 <html>
 <head>
   <meta charset="utf-8">
-  <title>站长聊天室</title>
+  <title><?=Option::get('blogname');?>聊天室</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="keywords" content="">
   <meta name="description" content="">
@@ -20,6 +20,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
+  <script src="https://cdn.bootcss.com/push.js/1.0.9/push.min.js"></script>
   <!--<script type="text/javascript" src="https://pv.sohu.com/cityjson?ie=utf-8"></script>-->
   <link rel="stylesheet" href="<?=BLOG_URL;?>content/plugins/TleChat/chat/ui/css/amazeui.min.css"/>
   <link rel="stylesheet" href="<?=BLOG_URL;?>content/plugins/TleChat/chat/ui/css/admin.css"  media="all">
@@ -57,7 +58,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 
   <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-      <li><a href="javascript:;"></a></li>
+      <li><a href="javascript:void();"></a></li>
     </ul>
   </div>
 </header>
@@ -98,6 +99,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 				<input id="input-wxpay-url" class="am-form-field am-input-sm" type="text" value="" placeholder="微信支付url(选填)">
 				<input id="input-alipay-url" class="am-form-field am-input-sm" type="text" value="" placeholder="支付宝url(选填)">
 				<button id="open-btn" class="am-btn am-btn-secondary am-btn-sm">进入聊天室</button>
+				<button id="quit-btn" style="display:none;" class="am-btn am-btn-secondary am-btn-sm">退出聊天室</button>
 			  </div>
 			</div>
 		</div>
@@ -162,6 +164,8 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 <script src="<?=BLOG_URL."content/plugins/TleChat/chat/js/leancloud/dist/realtime.browser.min.js";?>"></script>
 <script src="<?=BLOG_URL."content/plugins/TleChat/chat/js/leancloud/plugins/typed-messages/dist/typed-messages.min.js";?>"></script>
 <script>
+	Push.Permission.request();
+
 	var roomId = '<?=$config_room["objectId"];?>';
 	var appId = '<?=$config_app["appId"];?>';
 	var appKey = '<?=$config_app["appKey"];?>';
@@ -180,6 +184,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 	var blackFlag=false;
 
 	var openBtn = document.getElementById('open-btn');
+	var quitBtn = document.getElementById('quit-btn');
 	var sendBtnAsFile = document.getElementById('send-btn-as-file');
 	var sendBtn = document.getElementById('send-btn');
 	var inputName = document.getElementById('input-name');
@@ -194,6 +199,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 	var msgTime;
 
 	bindEvent(openBtn, 'click', main);
+	bindEvent(quitBtn, 'click', quitChat);
 	bindEvent(sendBtn, 'click', sendMsg);
 	bindEvent(sendBtnAsFile, 'click', sendMsgAsFile);
 	
@@ -238,6 +244,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 	  setCookie("inputAliUrl",inputAliUrl.value,24);
 	  inputName.disabled="false";
 	  openBtn.style.display="none";
+	  quitBtn.style.display="inline";
 	  showLog('<span class="am-badge">正在连接，请等待。。。</span>');
 	  if (!firstFlag) {
 		client.close();
@@ -290,6 +297,9 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 		}
 	  })
 	  .then(function(conversation) {
+		return conversation.join();
+	  })
+	  .then(function(conversation) {
 		var members = "";
 		members += '<div class="am-panel-bd">';
 		var k=0;
@@ -315,9 +325,6 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 		  });
 		}
 		return conversation;
-	  })
-	  .then(function(conversation) {
-		return conversation.join();
 	  })
 	  .then(function(conversation) {
 		/*获取聊天历史*/
@@ -517,19 +524,35 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 		}else{
 			color="blue";
 		}
+	  var pushBody="";
 	  if (message instanceof AV.TextMessage&&message.type==AV.TextMessage.TYPE) {
 		if (String(text).replace(/^\s+/, '').replace(/\s+$/, '')) {
 		  showLog(fromHtml+qqUrl+wxUrl+aliUrl+ '</div></header>', message.text, isBefore,color);
+		  pushBody=encodeHTML(from)+"说："+message.text;
 		}
 	  } else if (message instanceof AV.FileMessage&&message.type==AV.FileMessage.TYPE) {
 		showLog(fromHtml+qqUrl+wxUrl+aliUrl+ '</div></header>', createLink(message.getFile().url(),"#DEB887"), isBefore,color);
+		pushBody=encodeHTML(from)+"说：我发了一个文件";
 	  } else if (message instanceof AV.ImageMessage&&message.type==AV.ImageMessage.TYPE) {
 		  showLog(fromHtml+qqUrl+wxUrl+aliUrl+ '</div></header>', createImage(message.getFile().url()), isBefore,color);
+		  pushBody=encodeHTML(from)+"说：我发了一张图片";
 	  } else if (message instanceof AV.AudioMessage&&message.type==AV.AudioMessage.TYPE) {
 		  showLog(fromHtml+qqUrl+wxUrl+aliUrl+ '</div></header>', createAudio(message.getFile().url()), isBefore,color);
+		  pushBody=encodeHTML(from)+"说：我发了一段音频";
 	  }
 	  msgEnd.scrollIntoView();
 	  printWall.scrollTop = printWall.scrollHeight;
+	  if(!isBefore){
+		Push.create($("title").html(), {
+			body: pushBody,
+			icon: '<?=BLOG_URL;?>content/plugins/TleChat/chat/ui/images/icon.png',
+			timeout: 8000,
+			vibrate: [100, 100, 100],    
+			onClick: function() {
+				console.log(this);
+			}  
+		});
+	  }
 	}
 
 	/*拉取历史*/
@@ -625,6 +648,13 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 	  }
 	}
 
+	function quitChat(){
+		if(confirm("确定要登出聊天室吗？")){
+			room.quit().then(function(conversation) {
+			  window.location.reload();
+			}).catch(console.error.bind(console));
+		}
+	}
 	/*****************************************
      * url编码函数
      * 输入参数：待编码的字符串
