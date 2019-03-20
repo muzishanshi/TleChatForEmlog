@@ -9,7 +9,7 @@
 <img src="https://ws3.sinaimg.cn/large/005V7SQ5gy1g19e6qzxzyj30zm0hadif.jpg" />
 
 #### 使用方法：
-第一步：下载本插件，放在 `usr/plugins/` 目录中（插件文件夹名必须为TleChat）；<br />
+第一步：下载本插件，放在 `content/plugins/` 目录中（插件文件夹名必须为TleChat）；<br />
 第二步：激活插件；<br />
 第三步：填写配置；<br />
 第四步：完成。
