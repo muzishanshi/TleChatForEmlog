@@ -61,7 +61,7 @@ function plugin_setting_view(){
 		$("#createRoom").click(function(){
 			var flag=false;
 			if($("#objectId").val()!=""){
-				if(confirm("当前聊天室并未销毁，确认要创建新聊天室吗？")){
+				if(confirm("确认当前聊天室已经销毁后可创建新聊天室，还要继续吗？")){
 					flag=true;
 				}
 			}else{
