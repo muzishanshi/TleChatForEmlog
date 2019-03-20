@@ -700,7 +700,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 		return false;
 	}
 </script>
-<script src="js/record/recordmp3.js"></script>
+<script src="js/recordmp3.js"></script>
 <script>
 	var blog_url="<?=BLOG_URL;?>";
 	var recorder = new MP3Recorder({
