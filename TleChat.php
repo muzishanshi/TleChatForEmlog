@@ -25,11 +25,7 @@ function tle_chat_footer(){
 		<div style="position:fixed;bottom:0;right:0;">
 			<button id="btnChatroom" class="layui-btn layui-btn-normal">站长聊天室</button>
 		</div>
-		<script type="text/javascript">
-			if(typeof($("body")!="object"){
-				document.write(\"<script src=https://apps.bdimg.com/libs/jquery/1.7.1/jquery.min.js></script>\");
-			}
-		</script>
+		<script src=https://apps.bdimg.com/libs/jquery/1.7.1/jquery.min.js></script>
 		<script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
 		<script>
 		$("#btnChatroom").click(function(){
