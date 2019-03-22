@@ -40,7 +40,7 @@ function plugin_setting_view(){
 			</p>
 		</form>
 		<?php
-		$json=file_get_contents('https://www.tongleer.com/api/interface/TleChat.php?action=updateEmlog&version=2&domain='.$_SERVER['SERVER_NAME']);
+		$json=file_get_contents('https://www.tongleer.com/api/interface/TleChat.php?action=updateEmlog&version=3&domain='.$_SERVER['SERVER_NAME']);
 		$result=json_decode($json,true);
 		?>
 		版本检查：<?=$result["content"];?><br />
