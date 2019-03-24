@@ -39,16 +39,17 @@ function plugin_setting_view(){
 				<input type="button" id="createRoom" value="创建新聊天室" />
 			</p>
 		</form>
-		<?php
-		$json=file_get_contents('https://www.tongleer.com/api/interface/TleChat.php?action=updateEmlog&version=3&domain='.$_SERVER['SERVER_NAME']);
-		$result=json_decode($json,true);
-		?>
-		版本检查：<?=$result["content"];?><br />
-		<small>注：若前台点击午反应，则可能是jquery冲突，只需把插件目录下TleChat.php中加载jquery的代码删掉即可。</small>
-		<iframe src="<?=urldecode($result["url"]);?>" width="100%" height="700" scrolling = "no"></iframe>
+		版本检查：<span id="versionCode"></span><br />
+		<small>注：若前台点击午反应，则可能是jquery冲突，只需把插件目录下Plugin.php中加载jquery的代码删掉即可。</small>
+		<div id="chatUrl"></div>
 		<small style="color:#aaaaaa">站长聊天室插件为站长和用户提供聊天室功能，让站长与用户之间的联系更加友爱，支持文本、长文本、语音聊天、图片传输及站长之间的QQ、微信、支付宝打赏，共同建立一个友爱的联盟。</small>
 	</div>
 	<script>
+		$.post("<?=BLOG_URL;?>content/plugins/TleChat/update.php",{version:3},function(data){
+			var data=JSON.parse(data);
+			$("#versionCode").html(data.content);
+			$("#chatUrl").html('<iframe src="'+decodeURIComponent(data.url)+'" width="100%" height="700" scrolling = "no"></iframe>');
+		});
 		$("#clearAudio").click(function(){
 			$.post("<?=BLOG_URL;?>content/plugins/TleChat/chat/clearAudio.php",{action:"clearAudio"},function(data){
 				alert("清空录音成功");
