@@ -125,7 +125,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 					<div id="send-btn-photo-div" class="am-form-group am-form-file">
 					  <button type="button" class="am-btn am-btn-danger am-btn-sm">
 						<i class="am-icon-cloud-upload"></i> <span id="file-list">选择要上传的文件</span></button>
-					  <input id="send-btn-photo" type="file">
+					  <input id="send-btn-photo" type="file" accept="image/*">
 					</div>
 					<script>
 					  $(function() {
