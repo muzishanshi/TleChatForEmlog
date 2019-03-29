@@ -633,7 +633,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 	}
 
 	function createImage(url) {
-	  return '<img alt="" src="' + encodeHTML(url) + '" />';
+	  return '<img alt="" src="' + encodeHTML(url) + '" width="100%" />';
 	}
 
 	function createAudio(url) {
