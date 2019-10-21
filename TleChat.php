@@ -21,11 +21,17 @@ function tle_chat_head(){
 }
 addAction('index_head', 'tle_chat_head');
 function tle_chat_footer(){
+	$config_app=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../plugins/TleChat/config/config_app.php'),'<?php die; ?>'));
+	if(@$config_app['isEnableJQuery']=="y"){
+		$jquerysrc='<script src=https://apps.bdimg.com/libs/jquery/1.7.1/jquery.min.js></script>';
+	}else{
+		$jquerysrc='';
+	}
 	echo '
 		<div style="position:fixed;bottom:0;right:0;">
 			<button id="btnChatroom" class="layui-btn layui-btn-normal">站长聊天室</button>
 		</div>
-		<script src=https://apps.bdimg.com/libs/jquery/1.7.1/jquery.min.js></script>
+		'.$jquerysrc.'
 		<script src="https://www.tongleer.com/api/web/include/layui/layui.js"></script>
 		<script>
 		$("#btnChatroom").click(function(){

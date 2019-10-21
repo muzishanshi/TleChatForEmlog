@@ -3,10 +3,12 @@
 function plugin_setting_view(){
 	$action = isset($_POST['action']) ? addslashes(trim($_POST['action'])) : '';
 	if($action=='submit'){
+		$isEnableJQuery = isset($_POST['isEnableJQuery']) ? addslashes(trim($_POST['isEnableJQuery'])) : 'y';
 		$appId = isset($_POST['appId']) ? addslashes(trim($_POST['appId'])) : '';
 		$appKey = isset($_POST['appKey']) ? addslashes(trim($_POST['appKey'])) : '';
 		$notice = isset($_POST['notice']) ? addslashes(trim($_POST['notice'])) : '';
 		file_put_contents(dirname(__FILE__).'/config/config_app.php','<?php die; ?>'.serialize(array(
+			'isEnableJQuery'=>$isEnableJQuery,
 			'appId'=>$appId,
 			'appKey'=>$appKey,
 			'notice'=>$notice
@@ -19,6 +21,11 @@ function plugin_setting_view(){
 		<h2>站长聊天室:</h2>
 		作者：<a href="http://www.tongleer.com" target="_blank" title="">二呆</a><br />
 		<form method="post" action="">
+			<p>
+				前台是否加载jquery：
+				<input type="radio" name="isEnableJQuery" value="n" <?=isset($config_app['isEnableJQuery'])?($config_app['isEnableJQuery']=="n"?"checked":""):"";?> />否
+				<input type="radio" name="isEnableJQuery" value="y" <?=isset($config_app['isEnableJQuery'])?($config_app['isEnableJQuery']!="n"?"checked":""):"checked";?> />是
+			</p>
 			<p>
 				前台聊天室配置<a href="https://leancloud.cn/" target="_blank">leancloud</a>的appId<br /><input type="text" name="appId" value="<?=$config_app["appId"]==""?"":$config_app["appId"];?>" placeholder="leancloud的appId" size="50" />
 			</p>
@@ -39,8 +46,7 @@ function plugin_setting_view(){
 				<input type="button" id="createRoom" value="创建新聊天室" />
 			</p>
 		</form>
-		版本检查：<span id="versionCode"></span><br />
-		<small>注：若前台点击午反应，则可能是jquery冲突，只需把插件目录下Plugin.php中加载jquery的代码删掉即可。</small>
+		版本检查：<span id="versionCode"></span>
 		<div id="chatUrl"></div>
 		<small style="color:#aaaaaa">站长聊天室插件为站长和用户提供聊天室功能，让站长与用户之间的联系更加友爱，支持文本、长文本、语音聊天、图片传输及站长之间的QQ、微信、支付宝打赏，共同建立一个友爱的联盟。</small>
 	</div>
