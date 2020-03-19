@@ -34,24 +34,27 @@ function tle_chat_footer(){
 		'.$jquerysrc.'
 		<script src="https://www.tongleer.com/api/web/include/layui/layui.js"></script>
 		<script>
-		$("#btnChatroom").click(function(){
-			layer.open({
-				type: 2
-				,title: "聊天室"
-				,id: "chatroom"
-				,area: ["95%", "95%"]
-				,shade: 0
-				,maxmin: true
-				,offset: "auto"
-				,content: "'.BLOG_URL.'content/plugins/TleChat/chat/chat.php"
-				,btn: ["关闭"]
-				,yes: function(){
-				  layer.closeAll();
-				}
-				,zIndex: layer.zIndex
-				,success: function(layero){
-				  layer.setTop(layero);
-				}
+		layui.use("layer", function(){
+			var $ = layui.jquery, layer = layui.layer;
+			$("#btnChatroom").click(function(){
+				layer.open({
+					type: 2
+					,title: "聊天室"
+					,id: "chatroom"
+					,area: ["95%", "95%"]
+					,shade: 0
+					,maxmin: true
+					,offset: "auto"
+					,content: "'.BLOG_URL.'content/plugins/TleChat/chat/chat.php"
+					,btn: ["关闭"]
+					,yes: function(){
+					  layer.closeAll();
+					}
+					,zIndex: layer.zIndex
+					,success: function(layero){
+					  layer.setTop(layero);
+					}
+				});
 			});
 		});
 		</script>
