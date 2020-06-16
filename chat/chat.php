@@ -1,8 +1,9 @@
 <?php
 require_once '../../../../init.php';
 
-$config_app=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../plugins/TleChat/config/config_app.php'),'<?php die; ?>'));
-$config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../plugins/TleChat/config/config_room.php'),'<?php die; ?>'));
+$DB = Database::getInstance();
+$get_option = $DB -> once_fetch_array("SELECT * FROM `".DB_PREFIX."options` WHERE `option_name` = 'TleChat_option' ");
+$config_app=unserialize($get_option["option_value"]);
 ?>
 <!doctype html>
 <html>
@@ -166,7 +167,7 @@ $config_room=@unserialize(ltrim(file_get_contents(dirname(__FILE__).'/../../../p
 <script>
 	Push.Permission.request();
 
-	var roomId = '<?=$config_room["objectId"];?>';
+	var roomId = '<?=$config_app["objectId"];?>';
 	var appId = '<?=$config_app["appId"];?>';
 	var appKey = '<?=$config_app["appKey"];?>';
 	
