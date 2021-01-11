@@ -38,7 +38,9 @@ function plugin_setting_view(){
 			版本检查
 		  </legend>
 		</fieldset>
-		<span id="TleChatUpdateInfo"></span><script>TleChatXmlHttp=new XMLHttpRequest();TleChatXmlHttp.open("GET","https://www.tongleer.com/api/interface/TleChat.php?action=updateEmlog&version=<?=TLECHAT_VERSION;?>&domain=<?=$_SERVER['SERVER_NAME'];?>",true);TleChatXmlHttp.send(null);TleChatXmlHttp.onreadystatechange=function () {if (TleChatXmlHttp.readyState ==4 && TleChatXmlHttp.status ==200){var data=JSON.parse(TleChatXmlHttp.responseText);document.getElementById("TleChatUpdateInfo").innerHTML=data.content;$("#chatUrl").html('<iframe src="'+decodeURIComponent(data.url)+'" width="100%" height="800" scrolling = "no"></iframe>');}}</script>
+		<span id="TleChatUpdateInfo"></span>
+		<div id="chatUrl" class="leancloudTag" style="margin-top:10px;"></div>
+		<script>TleChatXmlHttp=new XMLHttpRequest();TleChatXmlHttp.open("GET","https://www.tongleer.com/api/interface/TleChat.php?action=updateEmlog&version=<?=TLECHAT_VERSION;?>&domain=<?=$_SERVER['SERVER_NAME'];?>",true);TleChatXmlHttp.send(null);TleChatXmlHttp.onreadystatechange=function () {if (TleChatXmlHttp.readyState ==4 && TleChatXmlHttp.status ==200){var data=JSON.parse(TleChatXmlHttp.responseText);document.getElementById("TleChatUpdateInfo").innerHTML=data.content;$("#chatUrl").html('<a href="https://www.tongleer.com" target = "_blank">站长聊天室</a>&nbsp;|&nbsp;<a href="'+decodeURIComponent(data.url)+'" target = "_blank">站长直播间</a>');}}</script>
 		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 		  <legend>
 			即时聊天
@@ -84,7 +86,6 @@ function plugin_setting_view(){
 				<input type="submit" style="background-color: #4CAF50;border: none;color: white;padding:5px 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;border-radius: 5%;" value="保存基础设置" />
 			</p>
 		</form>
-		<div id="chatUrl" class="leancloudTag" style="margin-top:10px;"></div>
 	</div>
 	<script>
 		<?php if(in_array("leancloud",$chatType)){?>
