@@ -8,10 +8,10 @@ if(ROLE!=ROLE_ADMIN){echo('无权限');exit;}
 $DB = Database::getInstance();
 $get_option = $DB -> once_fetch_array("SELECT * FROM `".DB_PREFIX."options` WHERE `option_name` = 'TleChat_option' ");
 $config_app=unserialize($get_option["option_value"]);
-if(!isset($config_app["appId"])||!isset($config_app["appKey"])){echo('有未填写参数');exit;}
+if(empty($config_app["appId"])||empty($config_app["MasterKey"])){echo('有未填写参数');exit;}
 if($config_app["objectId"]==""){echo('聊天室为空，不必删除。');exit;}
 //删除聊天室
-$result=delRoom($config_app["objectId"], $config_app["appId"], $config_app["appKey"]);
+$result=delRoom($config_app["objectId"], $config_app["appId"], $config_app["MasterKey"]);
 
 $config_app["objectId"]="";
 $config_app["createdAt"]="";
