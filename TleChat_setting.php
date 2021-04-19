@@ -6,6 +6,7 @@ if(!empty($_POST)&&$action=="submitTleChat"){
 	$isEnableJQuery=empty($_POST['isEnableJQuery'])?'y':trim($_POST['isEnableJQuery']);
 	$appId=empty($_POST['appId'])?'':trim($_POST['appId']);
 	$appKey=empty($_POST['appKey'])?'':trim($_POST['appKey']);
+	$MasterKey=empty($_POST['MasterKey'])?'':trim($_POST['MasterKey']);
 	$notice=empty($_POST['notice'])?'':trim($_POST['notice']);
 	$chatType=empty($_POST['chatType'])?'':$_POST['chatType'];
 	$chatType=implode("|",$chatType);
@@ -13,6 +14,7 @@ if(!empty($_POST)&&$action=="submitTleChat"){
 		$isEnableJQuery=stripslashes($isEnableJQuery);
 		$appId=stripslashes($appId);
 		$appKey=stripslashes($appKey);
+		$MasterKey=stripslashes($MasterKey);
 		$notice=stripslashes($notice);
 		$chatType=stripslashes($chatType);
 	}
@@ -21,6 +23,7 @@ if(!empty($_POST)&&$action=="submitTleChat"){
 	$config_app["isEnableJQuery"]=$isEnableJQuery;
 	$config_app["appId"]=$appId;
 	$config_app["appKey"]=$appKey;
+	$config_app["MasterKey"]=$MasterKey;
 	$config_app["notice"]=$notice;
 	$config_app["chatType"]=$chatType;
 	$DB -> query("UPDATE `".DB_PREFIX."options`  SET `option_value` = '".addslashes(serialize($config_app))."' WHERE `option_name` = 'TleChat_option' ");
@@ -68,7 +71,10 @@ function plugin_setting_view(){
 					前台聊天室配置<a href="https://leancloud.cn/" target="_blank"><font color="blue">leancloud</font></a>的appId<br /><input type="text" name="appId" value="<?=$config_app["appId"]==""?"":$config_app["appId"];?>" placeholder="leancloud的appId" size="50" />
 				</p>
 				<p class="leancloudTag" style="margin-top:10px;">
-					前台聊天室配置<a href="https://leancloud.cn/" target="_blank"><font color="blue">leancloud</font></a>的appKey<br /><input type="text" name="appKey" value="<?=$config_app["appKey"]==""?"":$config_app["appKey"];?>" placeholder="leancloud的appKey" size="50" />
+					前台聊天室配置<a href="https://leancloud.cn/" target="_blank"><font color="blue">leancloud</font></a>的MasterKey<br /><input type="text" name="appKey" value="<?=$config_app["appKey"]==""?"":$config_app["appKey"];?>" placeholder="leancloud的MasterKey" size="50" />
+				</p>
+				<p class="leancloudTag" style="margin-top:10px;">
+					前台聊天室配置<a href="https://leancloud.cn/" target="_blank"><font color="blue">leancloud</font></a>的MasterKey<br /><input type="text" name="MasterKey" value="<?=$config_app["MasterKey"]==""?"":$config_app["MasterKey"];?>" placeholder="leancloud的MasterKey" size="50" />
 				</p>
 				<p class="leancloudTag" style="margin-top:10px;">
 					公告<br /><input type="text" name="notice" value="<?=$config_app["notice"]==""?"":$config_app["notice"];?>" placeholder="输入前台显示的公告" size="50" />

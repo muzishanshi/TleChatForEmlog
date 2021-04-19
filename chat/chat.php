@@ -121,8 +121,9 @@ $config_app=unserialize($get_option["option_value"]);
 					<input id="input-send" lay-verify="required" placeholder="输入聊天内容" autocomplete="off" class="am-form-field am-input-sm input-send">
 					<button id="send-btn" class="am-btn am-btn-secondary am-btn-sm">发送</button>
 					<button id="send-btn-as-file" class="am-btn am-btn-secondary am-btn-sm">发送长文本</button>
+					<!--
 					<button id="send-btn-record" class="am-btn am-btn-secondary am-btn-sm">按住说话</button>
-					
+					-->
 					<div id="send-btn-photo-div" class="am-form-group am-form-file">
 					  <button type="button" class="am-btn am-btn-danger am-btn-sm">
 						<i class="am-icon-cloud-upload"></i> <span id="file-list">选择要上传的文件</span></button>
@@ -171,7 +172,7 @@ $config_app=unserialize($get_option["option_value"]);
 	var appId = '<?=$config_app["appId"];?>';
 	var appKey = '<?=$config_app["appKey"];?>';
 	
-	AV.initialize(appId, appKey);
+	AV.init(appId, appKey);
 	
 	var clientId = '游客';
 	var realtime;
